@@ -1,40 +1,443 @@
 <!DOCTYPE html>
-<html lang="en" >
-<head>
-  <meta charset="UTF-8">
-  <title>404 page</title>
-  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
-<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Arvo'><link rel="stylesheet" href="./style.css">
+<html lang="pt-BR">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0078d7;
+            color: white;
+            font-family: 'Segoe UI', 'Segoe UI Light', Tahoma, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            cursor: none;
+            user-select: none;
+        }
+
+        .bsod-container {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 10% 15%;
+        }
+
+        .sad-face {
+            font-size: 140px;
+            font-weight: 100;
+            margin-bottom: 30px;
+            font-family: 'Segoe UI Light', sans-serif;
+        }
+
+        .main-text {
+            font-size: 28px;
+            font-weight: 200;
+            margin-bottom: 40px;
+            line-height: 1.4;
+        }
+
+        .percentage {
+            font-size: 28px;
+            font-weight: 200;
+            margin-bottom: 50px;
+        }
+
+        .info-section {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .qr-code {
+            width: 100px;
+            height: 100px;
+            background: white;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qr-code svg {
+            width: 90px;
+            height: 90px;
+        }
+
+        .info-text {
+            font-size: 11px;
+            line-height: 1.8;
+            max-width: 550px;
+        }
+
+        .info-text a {
+            color: white;
+        }
+
+        .stop-code {
+            margin-top: 15px;
+            font-size: 11px;
+        }
+
+        /* Efeito de glitch ocasional */
+        @keyframes glitch {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.98;
+            }
+        }
+
+        .glitch-effect {
+            animation: glitch 0.1s infinite;
+        }
+
+        /* Tela de troll */
+        .troll-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .troll-screen h1 {
+            color: #00ff00;
+            font-size: 60px;
+            margin-bottom: 30px;
+        }
+
+        .troll-screen p {
+            color: #888;
+            font-size: 24px;
+        }
+
+        /* Loading dots animation */
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+
+            0%,
+            20% {
+                content: '';
+            }
+
+            40% {
+                content: '.';
+            }
+
+            60% {
+                content: '..';
+            }
+
+            80%,
+            100% {
+                content: '...';
+            }
+        }
+
+        /* Cursor piscando (falso) */
+        .fake-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 20px;
+            background: transparent;
+            margin-left: 5px;
+            animation: cursor-blink 1s infinite;
+        }
+
+        @keyframes cursor-blink {
+
+            0%,
+            50% {
+                background: transparent;
+            }
+
+            51%,
+            100% {
+                background: transparent;
+            }
+        }
+    </style>
 </head>
+
 <body>
-<!-- partial:index.partial.html -->
-<section class="page_404">
-	<div class="container">
-		<div class="row">	
-		<div class="col-sm-12 ">
-		<div class="col-sm-10 col-sm-offset-1  text-center">
-		<div class="four_zero_four_bg">
-			<h1 class="text-center ">404</h1>
-		
-		
-		</div>
-		
-		<div class="contant_box_404">
-		<h3 class="h2">
-		Look like you're lost
-		</h3>
-		
-		<p>the page you are looking for not avaible!</p>
-		
-		<a href="" class="link_404">Go to Home</a>
-	</div>
-		</div>
-		</div>
-		</div>
-	</div>
-</section>
-<!-- partial -->
-  
+    <div class="bsod-container glitch-effect" id="bsodContainer">
+        <div class="sad-face">:(</div>
+
+        <div class="main-text">
+            Your PC ran into a problem and needs to restart. We're<br>
+            just collecting some error info, and then we'll restart for<br>
+            you.
+        </div>
+
+        <div class="percentage">
+            <span id="percentValue">0</span>% complete
+        </div>
+
+        <div class="info-section">
+            <div class="qr-code">
+                <!-- QR Code REAL que leva para uma surpresa 😈 -->
+                <!-- Este QR code aponta para: https://bit.ly/3BqMVKl (imagem do macaco) -->
+            <svg version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+                
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="100" height="100" viewBox="0 0 2000 2000" x="0" y="0" shape-rendering="crispEdges"><defs/><rect x="0" y="0" width="2000" height="2000" fill="#ffffff"/><rect x="840" y="200" width="64" height="64" fill="#000000"/><rect x="1160" y="200" width="64" height="64" fill="#000000"/><rect x="776" y="264" width="64" height="64" fill="#000000"/><rect x="1096" y="264" width="64" height="64" fill="#000000"/><rect x="712" y="328" width="64" height="64" fill="#000000"/><rect x="904" y="328" width="64" height="64" fill="#000000"/><rect x="1096" y="328" width="64" height="64" fill="#000000"/><rect x="1160" y="328" width="64" height="64" fill="#000000"/><rect x="1224" y="328" width="64" height="64" fill="#000000"/><rect x="776" y="392" width="64" height="64" fill="#000000"/><rect x="968" y="392" width="64" height="64" fill="#000000"/><rect x="1160" y="392" width="64" height="64" fill="#000000"/><rect x="1224" y="392" width="64" height="64" fill="#000000"/><rect x="776" y="456" width="64" height="64" fill="#000000"/><rect x="968" y="456" width="64" height="64" fill="#000000"/><rect x="1096" y="456" width="64" height="64" fill="#000000"/><rect x="840" y="520" width="64" height="64" fill="#000000"/><rect x="904" y="520" width="64" height="64" fill="#000000"/><rect x="968" y="520" width="64" height="64" fill="#000000"/><rect x="1096" y="520" width="64" height="64" fill="#000000"/><rect x="1160" y="520" width="64" height="64" fill="#000000"/><rect x="712" y="584" width="64" height="64" fill="#000000"/><rect x="840" y="584" width="64" height="64" fill="#000000"/><rect x="968" y="584" width="64" height="64" fill="#000000"/><rect x="1096" y="584" width="64" height="64" fill="#000000"/><rect x="1224" y="584" width="64" height="64" fill="#000000"/><rect x="712" y="648" width="64" height="64" fill="#000000"/><rect x="904" y="648" width="64" height="64" fill="#000000"/><rect x="1032" y="648" width="64" height="64" fill="#000000"/><rect x="1224" y="648" width="64" height="64" fill="#000000"/><rect x="200" y="712" width="64" height="64" fill="#000000"/><rect x="264" y="712" width="64" height="64" fill="#000000"/><rect x="328" y="712" width="64" height="64" fill="#000000"/><rect x="456" y="712" width="64" height="64" fill="#000000"/><rect x="520" y="712" width="64" height="64" fill="#000000"/><rect x="584" y="712" width="64" height="64" fill="#000000"/><rect x="648" y="712" width="64" height="64" fill="#000000"/><rect x="712" y="712" width="64" height="64" fill="#000000"/><rect x="968" y="712" width="64" height="64" fill="#000000"/><rect x="1032" y="712" width="64" height="64" fill="#000000"/><rect x="1224" y="712" width="64" height="64" fill="#000000"/><rect x="1288" y="712" width="64" height="64" fill="#000000"/><rect x="1352" y="712" width="64" height="64" fill="#000000"/><rect x="1608" y="712" width="64" height="64" fill="#000000"/><rect x="200" y="776" width="64" height="64" fill="#000000"/><rect x="264" y="776" width="64" height="64" fill="#000000"/><rect x="776" y="776" width="64" height="64" fill="#000000"/><rect x="904" y="776" width="64" height="64" fill="#000000"/><rect x="968" y="776" width="64" height="64" fill="#000000"/><rect x="1032" y="776" width="64" height="64" fill="#000000"/><rect x="1096" y="776" width="64" height="64" fill="#000000"/><rect x="1160" y="776" width="64" height="64" fill="#000000"/><rect x="1224" y="776" width="64" height="64" fill="#000000"/><rect x="1352" y="776" width="64" height="64" fill="#000000"/><rect x="1480" y="776" width="64" height="64" fill="#000000"/><rect x="1672" y="776" width="64" height="64" fill="#000000"/><rect x="328" y="840" width="64" height="64" fill="#000000"/><rect x="392" y="840" width="64" height="64" fill="#000000"/><rect x="520" y="840" width="64" height="64" fill="#000000"/><rect x="584" y="840" width="64" height="64" fill="#000000"/><rect x="648" y="840" width="64" height="64" fill="#000000"/><rect x="712" y="840" width="64" height="64" fill="#000000"/><rect x="840" y="840" width="64" height="64" fill="#000000"/><rect x="904" y="840" width="64" height="64" fill="#000000"/><rect x="968" y="840" width="64" height="64" fill="#000000"/><rect x="1224" y="840" width="64" height="64" fill="#000000"/><rect x="1288" y="840" width="64" height="64" fill="#000000"/><rect x="1352" y="840" width="64" height="64" fill="#000000"/><rect x="1544" y="840" width="64" height="64" fill="#000000"/><rect x="264" y="904" width="64" height="64" fill="#000000"/><rect x="328" y="904" width="64" height="64" fill="#000000"/><rect x="456" y="904" width="64" height="64" fill="#000000"/><rect x="648" y="904" width="64" height="64" fill="#000000"/><rect x="776" y="904" width="64" height="64" fill="#000000"/><rect x="840" y="904" width="64" height="64" fill="#000000"/><rect x="968" y="904" width="64" height="64" fill="#000000"/><rect x="1032" y="904" width="64" height="64" fill="#000000"/><rect x="1096" y="904" width="64" height="64" fill="#000000"/><rect x="1224" y="904" width="64" height="64" fill="#000000"/><rect x="1352" y="904" width="64" height="64" fill="#000000"/><rect x="1416" y="904" width="64" height="64" fill="#000000"/><rect x="1672" y="904" width="64" height="64" fill="#000000"/><rect x="1736" y="904" width="64" height="64" fill="#000000"/><rect x="264" y="968" width="64" height="64" fill="#000000"/><rect x="328" y="968" width="64" height="64" fill="#000000"/><rect x="584" y="968" width="64" height="64" fill="#000000"/><rect x="840" y="968" width="64" height="64" fill="#000000"/><rect x="904" y="968" width="64" height="64" fill="#000000"/><rect x="1032" y="968" width="64" height="64" fill="#000000"/><rect x="1224" y="968" width="64" height="64" fill="#000000"/><rect x="1352" y="968" width="64" height="64" fill="#000000"/><rect x="1416" y="968" width="64" height="64" fill="#000000"/><rect x="1608" y="968" width="64" height="64" fill="#000000"/><rect x="1672" y="968" width="64" height="64" fill="#000000"/><rect x="1736" y="968" width="64" height="64" fill="#000000"/><rect x="328" y="1032" width="64" height="64" fill="#000000"/><rect x="392" y="1032" width="64" height="64" fill="#000000"/><rect x="456" y="1032" width="64" height="64" fill="#000000"/><rect x="520" y="1032" width="64" height="64" fill="#000000"/><rect x="776" y="1032" width="64" height="64" fill="#000000"/><rect x="840" y="1032" width="64" height="64" fill="#000000"/><rect x="904" y="1032" width="64" height="64" fill="#000000"/><rect x="1032" y="1032" width="64" height="64" fill="#000000"/><rect x="1096" y="1032" width="64" height="64" fill="#000000"/><rect x="1224" y="1032" width="64" height="64" fill="#000000"/><rect x="1480" y="1032" width="64" height="64" fill="#000000"/><rect x="1672" y="1032" width="64" height="64" fill="#000000"/><rect x="1736" y="1032" width="64" height="64" fill="#000000"/><rect x="200" y="1096" width="64" height="64" fill="#000000"/><rect x="328" y="1096" width="64" height="64" fill="#000000"/><rect x="392" y="1096" width="64" height="64" fill="#000000"/><rect x="584" y="1096" width="64" height="64" fill="#000000"/><rect x="648" y="1096" width="64" height="64" fill="#000000"/><rect x="712" y="1096" width="64" height="64" fill="#000000"/><rect x="840" y="1096" width="64" height="64" fill="#000000"/><rect x="1032" y="1096" width="64" height="64" fill="#000000"/><rect x="1160" y="1096" width="64" height="64" fill="#000000"/><rect x="1224" y="1096" width="64" height="64" fill="#000000"/><rect x="1288" y="1096" width="64" height="64" fill="#000000"/><rect x="1352" y="1096" width="64" height="64" fill="#000000"/><rect x="1544" y="1096" width="64" height="64" fill="#000000"/><rect x="1672" y="1096" width="64" height="64" fill="#000000"/><rect x="1736" y="1096" width="64" height="64" fill="#000000"/><rect x="264" y="1160" width="64" height="64" fill="#000000"/><rect x="456" y="1160" width="64" height="64" fill="#000000"/><rect x="520" y="1160" width="64" height="64" fill="#000000"/><rect x="712" y="1160" width="64" height="64" fill="#000000"/><rect x="904" y="1160" width="64" height="64" fill="#000000"/><rect x="1032" y="1160" width="64" height="64" fill="#000000"/><rect x="1352" y="1160" width="64" height="64" fill="#000000"/><rect x="1416" y="1160" width="64" height="64" fill="#000000"/><rect x="200" y="1224" width="64" height="64" fill="#000000"/><rect x="392" y="1224" width="64" height="64" fill="#000000"/><rect x="456" y="1224" width="64" height="64" fill="#000000"/><rect x="584" y="1224" width="64" height="64" fill="#000000"/><rect x="968" y="1224" width="64" height="64" fill="#000000"/><rect x="1032" y="1224" width="64" height="64" fill="#000000"/><rect x="1224" y="1224" width="64" height="64" fill="#000000"/><rect x="1288" y="1224" width="64" height="64" fill="#000000"/><rect x="1352" y="1224" width="64" height="64" fill="#000000"/><rect x="1416" y="1224" width="64" height="64" fill="#000000"/><rect x="1480" y="1224" width="64" height="64" fill="#000000"/><rect x="1608" y="1224" width="64" height="64" fill="#000000"/><rect x="1736" y="1224" width="64" height="64" fill="#000000"/><rect x="712" y="1288" width="64" height="64" fill="#000000"/><rect x="776" y="1288" width="64" height="64" fill="#000000"/><rect x="840" y="1288" width="64" height="64" fill="#000000"/><rect x="904" y="1288" width="64" height="64" fill="#000000"/><rect x="968" y="1288" width="64" height="64" fill="#000000"/><rect x="1032" y="1288" width="64" height="64" fill="#000000"/><rect x="1096" y="1288" width="64" height="64" fill="#000000"/><rect x="1224" y="1288" width="64" height="64" fill="#000000"/><rect x="1480" y="1288" width="64" height="64" fill="#000000"/><rect x="1672" y="1288" width="64" height="64" fill="#000000"/><rect x="712" y="1352" width="64" height="64" fill="#000000"/><rect x="776" y="1352" width="64" height="64" fill="#000000"/><rect x="904" y="1352" width="64" height="64" fill="#000000"/><rect x="968" y="1352" width="64" height="64" fill="#000000"/><rect x="1160" y="1352" width="64" height="64" fill="#000000"/><rect x="1224" y="1352" width="64" height="64" fill="#000000"/><rect x="1352" y="1352" width="64" height="64" fill="#000000"/><rect x="1480" y="1352" width="64" height="64" fill="#000000"/><rect x="1544" y="1352" width="64" height="64" fill="#000000"/><rect x="1672" y="1352" width="64" height="64" fill="#000000"/><rect x="1736" y="1352" width="64" height="64" fill="#000000"/><rect x="712" y="1416" width="64" height="64" fill="#000000"/><rect x="840" y="1416" width="64" height="64" fill="#000000"/><rect x="968" y="1416" width="64" height="64" fill="#000000"/><rect x="1032" y="1416" width="64" height="64" fill="#000000"/><rect x="1096" y="1416" width="64" height="64" fill="#000000"/><rect x="1224" y="1416" width="64" height="64" fill="#000000"/><rect x="1480" y="1416" width="64" height="64" fill="#000000"/><rect x="1544" y="1416" width="64" height="64" fill="#000000"/><rect x="1672" y="1416" width="64" height="64" fill="#000000"/><rect x="1736" y="1416" width="64" height="64" fill="#000000"/><rect x="712" y="1480" width="64" height="64" fill="#000000"/><rect x="776" y="1480" width="64" height="64" fill="#000000"/><rect x="840" y="1480" width="64" height="64" fill="#000000"/><rect x="904" y="1480" width="64" height="64" fill="#000000"/><rect x="968" y="1480" width="64" height="64" fill="#000000"/><rect x="1032" y="1480" width="64" height="64" fill="#000000"/><rect x="1160" y="1480" width="64" height="64" fill="#000000"/><rect x="1224" y="1480" width="64" height="64" fill="#000000"/><rect x="1288" y="1480" width="64" height="64" fill="#000000"/><rect x="1352" y="1480" width="64" height="64" fill="#000000"/><rect x="1416" y="1480" width="64" height="64" fill="#000000"/><rect x="1480" y="1480" width="64" height="64" fill="#000000"/><rect x="1608" y="1480" width="64" height="64" fill="#000000"/><rect x="776" y="1544" width="64" height="64" fill="#000000"/><rect x="840" y="1544" width="64" height="64" fill="#000000"/><rect x="904" y="1544" width="64" height="64" fill="#000000"/><rect x="1032" y="1544" width="64" height="64" fill="#000000"/><rect x="1096" y="1544" width="64" height="64" fill="#000000"/><rect x="1160" y="1544" width="64" height="64" fill="#000000"/><rect x="1224" y="1544" width="64" height="64" fill="#000000"/><rect x="1288" y="1544" width="64" height="64" fill="#000000"/><rect x="1416" y="1544" width="64" height="64" fill="#000000"/><rect x="1480" y="1544" width="64" height="64" fill="#000000"/><rect x="712" y="1608" width="64" height="64" fill="#000000"/><rect x="968" y="1608" width="64" height="64" fill="#000000"/><rect x="1032" y="1608" width="64" height="64" fill="#000000"/><rect x="1160" y="1608" width="64" height="64" fill="#000000"/><rect x="1224" y="1608" width="64" height="64" fill="#000000"/><rect x="1544" y="1608" width="64" height="64" fill="#000000"/><rect x="1736" y="1608" width="64" height="64" fill="#000000"/><rect x="712" y="1672" width="64" height="64" fill="#000000"/><rect x="776" y="1672" width="64" height="64" fill="#000000"/><rect x="840" y="1672" width="64" height="64" fill="#000000"/><rect x="904" y="1672" width="64" height="64" fill="#000000"/><rect x="1224" y="1672" width="64" height="64" fill="#000000"/><rect x="1480" y="1672" width="64" height="64" fill="#000000"/><rect x="1544" y="1672" width="64" height="64" fill="#000000"/><rect x="1736" y="1672" width="64" height="64" fill="#000000"/><rect x="712" y="1736" width="64" height="64" fill="#000000"/><rect x="840" y="1736" width="64" height="64" fill="#000000"/><rect x="968" y="1736" width="64" height="64" fill="#000000"/><rect x="1032" y="1736" width="64" height="64" fill="#000000"/><rect x="1096" y="1736" width="64" height="64" fill="#000000"/><rect x="1224" y="1736" width="64" height="64" fill="#000000"/><rect x="1480" y="1736" width="64" height="64" fill="#000000"/><rect x="1544" y="1736" width="64" height="64" fill="#000000"/><rect x="1672" y="1736" width="64" height="64" fill="#000000"/><rect x="1736" y="1736" width="64" height="64" fill="#000000"/><svg version="1.1" id="Ebene_1" x="200" y="200" viewBox="0 0 700 700" style="enable-background:new 0 0 700 700;" xml:space="preserve" width="448" height="448" shape-rendering="auto">
+
+            <path fill="#000000" d="M21.2-0.1C9.5-0.1-0.1,9.5-0.1,21.2v78.8v100v100v100v100v100v78.8c0,11.7,9.5,21.3,21.3,21.3h657.6  c11.7,0,21.3-9.5,21.3-21.3V600V500V400V300V200v-100V21.2c0-11.7-9.5-21.3-21.3-21.3H21.2z M600,200v100v100v100v87.8  c0,6.8-5.5,12.2-12.2,12.2H112.2c-6.8,0-12.2-5.5-12.2-12.2V500V400V300V200v-87.8c0-6.8,5.5-12.2,12.2-12.2h475.6  c6.8,0,12.2,5.5,12.2,12.2V200z"/>
+            </svg>
+            <svg version="1.1" id="Ebene_1" x="200" y="200" viewBox="0 0 700 700" style="enable-background:new 0 0 700 700;" xml:space="preserve" width="448" height="448" shape-rendering="auto">
+
+            <path fill="#000000" d="M500,400V300v-78.8c0-11.7-9.5-21.3-21.3-21.3H221.2c-11.7,0-21.3,9.5-21.3,21.3V300v100v78.8    c0,11.7,9.5,21.3,21.3,21.3h257.5c11.7,0,21.3-9.5,21.3-21.3V400z"/>
+            </svg>
+            <svg version="1.1" id="Ebene_1" x="1352" y="200" viewBox="0 0 700 700" style="enable-background:new 0 0 700 700;" xml:space="preserve" width="448" height="448" shape-rendering="auto">
+
+            <path fill="#000000" d="M21.2-0.1C9.5-0.1-0.1,9.5-0.1,21.2v78.8v100v100v100v100v100v78.8c0,11.7,9.5,21.3,21.3,21.3h657.6  c11.7,0,21.3-9.5,21.3-21.3V600V500V400V300V200v-100V21.2c0-11.7-9.5-21.3-21.3-21.3H21.2z M600,200v100v100v100v87.8  c0,6.8-5.5,12.2-12.2,12.2H112.2c-6.8,0-12.2-5.5-12.2-12.2V500V400V300V200v-87.8c0-6.8,5.5-12.2,12.2-12.2h475.6  c6.8,0,12.2,5.5,12.2,12.2V200z"/>
+            </svg>
+            <svg version="1.1" id="Ebene_1" x="1352" y="200" viewBox="0 0 700 700" style="enable-background:new 0 0 700 700;" xml:space="preserve" width="448" height="448" shape-rendering="auto">
+
+            <path fill="#000000" d="M500,400V300v-78.8c0-11.7-9.5-21.3-21.3-21.3H221.2c-11.7,0-21.3,9.5-21.3,21.3V300v100v78.8    c0,11.7,9.5,21.3,21.3,21.3h257.5c11.7,0,21.3-9.5,21.3-21.3V400z"/>
+            </svg>
+            <svg version="1.1" id="Ebene_1" x="200" y="1352" viewBox="0 0 700 700" style="enable-background:new 0 0 700 700;" xml:space="preserve" width="448" height="448" shape-rendering="auto">
+
+            <path fill="#000000" d="M21.2-0.1C9.5-0.1-0.1,9.5-0.1,21.2v78.8v100v100v100v100v100v78.8c0,11.7,9.5,21.3,21.3,21.3h657.6  c11.7,0,21.3-9.5,21.3-21.3V600V500V400V300V200v-100V21.2c0-11.7-9.5-21.3-21.3-21.3H21.2z M600,200v100v100v100v87.8  c0,6.8-5.5,12.2-12.2,12.2H112.2c-6.8,0-12.2-5.5-12.2-12.2V500V400V300V200v-87.8c0-6.8,5.5-12.2,12.2-12.2h475.6  c6.8,0,12.2,5.5,12.2,12.2V200z"/>
+            </svg>
+            <svg version="1.1" id="Ebene_1" x="200" y="1352" viewBox="0 0 700 700" style="enable-background:new 0 0 700 700;" xml:space="preserve" width="448" height="448" shape-rendering="auto">
+
+            <path fill="#000000" d="M500,400V300v-78.8c0-11.7-9.5-21.3-21.3-21.3H221.2c-11.7,0-21.3,9.5-21.3,21.3V300v100v78.8    c0,11.7,9.5,21.3,21.3,21.3h257.5c11.7,0,21.3-9.5,21.3-21.3V400z"/>
+            </svg>
+            </svg>
+
+            </svg>
+
+            </div>
+
+            <div class="info-text">
+                For more information about this issue and possible fixes, visit<br>
+                https://www.windows.com/stopcode<br><br>
+
+                If you call a support person, give them this info:<br>
+                <div class="stop-code">
+                    Stop code: CRITICAL_PROCESS_DIED<br>
+                    What failed: ntoskrnl.exe
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tela de troll -->
+    <div class="troll-screen" id="trollScreen">
+        <h1>🎉 PEGADINHA! 🎉</h1>
+        <p>Relaxa, foi só uma brincadeira! 😂</p>
+        <p style="margin-top: 20px; color: #666; font-size: 16px;">Seu PC está perfeitamente bem!</p>
+    </div>
+
+    <script>
+        const percentValue = document.getElementById('percentValue');
+        const trollScreen = document.getElementById('trollScreen');
+        const bsodContainer = document.getElementById('bsodContainer');
+
+        let percent = 0;
+        let stuckCounter = 0;
+        let lastUpdate = Date.now();
+        let clickCount = 0;
+        let keyPressCount = 0;
+
+        // Stop codes aleatórios para variar
+        const stopCodes = [
+            'CRITICAL_PROCESS_DIED',
+            'SYSTEM_SERVICE_EXCEPTION',
+            'IRQL_NOT_LESS_OR_EQUAL',
+            'PAGE_FAULT_IN_NONPAGED_AREA',
+            'KERNEL_SECURITY_CHECK_FAILURE',
+            'DRIVER_IRQL_NOT_LESS_OR_EQUAL',
+            'UNEXPECTED_KERNEL_MODE_TRAP',
+            'SYSTEM_THREAD_EXCEPTION_NOT_HANDLED',
+            'KMODE_EXCEPTION_NOT_HANDLED',
+            'WHEA_UNCORRECTABLE_ERROR'
+        ];
+
+        const failedModules = [
+            'ntoskrnl.exe',
+            'win32kfull.sys',
+            'dxgkrnl.sys',
+            'nvlddmkm.sys',
+            'atikmdag.sys',
+            'tcpip.sys',
+            'ntfs.sys',
+            'fltMgr.sys',
+            'CI.dll',
+            'CLASSPNP.SYS'
+        ];
+
+        // Seleciona stop code e módulo aleatório
+        const randomStopCode = stopCodes[Math.floor(Math.random() * stopCodes.length)];
+        const randomModule = failedModules[Math.floor(Math.random() * failedModules.length)];
+
+        document.querySelector('.stop-code').innerHTML =
+            `Stop code: ${randomStopCode}<br>What failed: ${randomModule}`;
+
+        function updatePercent() {
+            const now = Date.now();
+            const elapsed = now - lastUpdate;
+
+            // Simula comportamento realista de BSOD travado
+            if (percent < 10) {
+                // Início rápido
+                if (Math.random() > 0.3) {
+                    percent += 1;
+                }
+            } else if (percent < 30) {
+                // Começa a travar
+                if (Math.random() > 0.7) {
+                    percent += 1;
+                }
+            } else if (percent < 50) {
+                // Trava bastante
+                if (Math.random() > 0.9) {
+                    percent += 1;
+                }
+                // Às vezes volta um pouco
+                if (Math.random() > 0.98 && percent > 35) {
+                    percent -= 1;
+                }
+            } else if (percent < 75) {
+                // Muito travado
+                if (Math.random() > 0.95) {
+                    percent += 1;
+                }
+                // Pode voltar
+                if (Math.random() > 0.97 && percent > 55) {
+                    percent -= Math.floor(Math.random() * 3) + 1;
+                }
+            } else if (percent < 99) {
+                // Praticamente parado
+                if (Math.random() > 0.98) {
+                    percent += 1;
+                }
+                // Volta frequentemente
+                if (Math.random() > 0.95) {
+                    percent -= Math.floor(Math.random() * 5) + 1;
+                    if (percent < 75) percent = 75;
+                }
+            } else {
+                // 99% - fica travado para sempre aqui
+                // Ocasionalmente volta para 97-98
+                if (Math.random() > 0.99) {
+                    percent = 97 + Math.floor(Math.random() * 2);
+                }
+            }
+
+            // Garante que não passa de 99 (nunca completa)
+            if (percent >= 99) percent = 99;
+            if (percent < 0) percent = 0;
+
+            percentValue.textContent = percent;
+            lastUpdate = now;
+
+            // Intervalo variável para parecer mais real
+            const nextInterval = percent > 50
+                ? Math.random() * 3000 + 2000  // 2-5 segundos quando travado
+                : Math.random() * 1500 + 500;  // 0.5-2 segundos no início
+
+            setTimeout(updatePercent, nextInterval);
+        }
+
+        // Tela cheia automática
+        function goFullscreen() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen().catch(err => { });
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
+            }
+        }
+
+        // Tenta fullscreen no primeiro clique
+        document.addEventListener('click', () => {
+            clickCount++;
+            if (clickCount === 1) {
+                goFullscreen();
+            }
+            // 10 cliques revela a pegadinha
+            if (clickCount >= 10) {
+                trollScreen.style.display = 'flex';
+            }
+        });
+
+        // Conta teclas pressionadas
+        document.addEventListener('keydown', (e) => {
+            keyPressCount++;
+
+            // ESC revela a pegadinha
+            if (e.key === 'Escape') {
+                trollScreen.style.display = 'flex';
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                }
+                return;
+            }
+
+            // Ctrl+Alt+Del (simulado com 20 teclas)
+            if (keyPressCount >= 20) {
+                trollScreen.style.display = 'flex';
+            }
+
+            // Previne teclas
+            e.preventDefault();
+        });
+
+        // Previne menu de contexto
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            clickCount++;
+        });
+
+        // Previne fechamento
+        window.onbeforeunload = function () {
+            return 'Your PC is collecting error information. Please wait...';
+        };
+
+        // Esconde cursor
+        document.body.style.cursor = 'none';
+
+        // Inicia contador
+        setTimeout(updatePercent, 1000);
+
+        // Ocasionalmente adiciona um "glitch" visual
+        setInterval(() => {
+            if (Math.random() > 0.95) {
+                bsodContainer.style.opacity = '0.97';
+                setTimeout(() => {
+                    bsodContainer.style.opacity = '1';
+                }, 50);
+            }
+        }, 2000);
+    </script>
 </body>
+
 </html>
